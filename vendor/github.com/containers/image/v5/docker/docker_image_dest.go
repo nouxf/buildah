@@ -88,7 +88,7 @@ func (d *dockerImageDestination) SupportsSignatures(ctx context.Context) error {
 }
 
 func (d *dockerImageDestination) DesiredLayerCompression() types.LayerCompression {
-	return types.Compress
+	return types.PreserveOriginal
 }
 
 // AcceptsForeignLayerURLs returns false iff foreign layers in manifest should be actually
