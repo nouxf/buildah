@@ -5,7 +5,6 @@ docs/*.5
 /imgtype
 /build/
 /tests/tools/build
-Dockerfile*
 !/tests/bud/*/Dockerfile*
 !/tests/conformance/**/Dockerfile*
 *.swp
