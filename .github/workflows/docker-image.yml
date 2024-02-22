@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "experimental/1.26.0-no-docker-registry-compression" ]
+  pull_request:
+    branches: [ "experimental/1.26.0-no-docker-registry-compression" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: ACR login
+      env:
+        REG_PWD: ${{ secrets.REG_PWD }}
+        REG_USER: ${{ secrets.REG_USER }}
+        REG_URL: ${{ secrets.REG_URL }}
+        REPO_NAME: ${{ secrets.REG_REPO }}
+      run: |
+        echo "${REG_PWD}" | docker login --username ${REG_USER} --password-stdin  ${REG_URL}
+    - name: Build the Docker image
+      run: |
+        BUILDAH_IMAGE=${REG_URL}/${REPO_NAME}/${reimage}
+        docker build . --file Dockerfile --tag  $BUILDAH_IMAGE
+        docker push $BUILDAH_IMAGE
